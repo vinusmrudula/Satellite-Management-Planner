@@ -1,0 +1,752 @@
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #020b14;
+    color: white;
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   NAVBAR
+========================================================= */
+
+nav {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+
+    height: 115px;
+
+    background: #020b14;
+
+    border-bottom: 1px solid #1d3042;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 5%;
+}
+
+
+/* =========================================================
+   LOGO
+========================================================= */
+
+.logo {
+    color: #7928d8;
+
+    font-size: 32px;
+
+    font-weight: 700;
+
+    letter-spacing: 1px;
+
+    text-decoration: underline;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   NAVIGATION LINKS
+========================================================= */
+
+nav ul {
+    list-style: none;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 45px;
+
+    margin-left: auto;
+}
+
+nav ul li a {
+    color: white;
+
+    text-decoration: none;
+
+    font-size: 22px;
+
+    transition: 0.2s;
+}
+
+nav ul li a:hover {
+    color: #a85cff;
+}
+
+
+/* =========================================================
+   ADMIN BUTTON
+========================================================= */
+
+.admin-nav-btn {
+    border: none;
+
+    background: linear-gradient(
+        135deg,
+        #7928d8,
+        #a13cff
+    );
+
+    color: white;
+
+    padding: 11px 20px;
+
+    border-radius: 9px;
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.admin-nav-btn:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 25px rgba(121, 40, 216, 0.35);
+}
+
+
+/* =========================================================
+   HERO / EXPLORE
+========================================================= */
+
+.hero {
+    min-height: calc(100vh - 115px);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 70px;
+
+    padding: 70px 9%;
+}
+
+
+/* LEFT SIDE */
+
+.hero-content {
+    max-width: 650px;
+}
+
+.hero-content h1 {
+    font-size: clamp(55px, 6vw, 88px);
+
+    line-height: 0.98;
+
+    margin: 20px 0 35px;
+}
+
+.hero-content p {
+    color: #aebfd0;
+
+    font-size: 21px;
+
+    line-height: 1.8;
+
+    max-width: 650px;
+}
+
+
+/* =========================================================
+   HERO IMAGE
+========================================================= */
+
+.hero-image {
+    width: 390px;
+
+    height: 600px;
+
+    flex-shrink: 0;
+
+    border-radius: 30px;
+
+    overflow: hidden;
+
+    border: 1px solid #284057;
+
+    background: #071624;
+
+    position: sticky;
+
+    top: 145px;
+}
+
+.hero-image img {
+    width: 100%;
+
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+
+    object-position: center;
+
+    border-radius: inherit;
+}
+
+
+/* =========================================================
+   GENERAL SECTION
+========================================================= */
+
+section {
+    padding: 90px 7%;
+}
+
+section h2 {
+    font-size: 45px;
+
+    margin-bottom: 35px;
+}
+
+
+/* =========================================================
+   SATELLITE / MISSION CONTAINERS
+========================================================= */
+
+#satellite-container,
+#mission-container {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 24px;
+
+    align-items: stretch;
+}
+
+
+/* =========================================================
+   SATELLITE CARD
+========================================================= */
+
+.satellite-card,
+.mission-card {
+
+    background:
+        linear-gradient(
+            145deg,
+            #0c1d2c,
+            #081522
+        );
+
+    border: 1px solid #29465e;
+
+    border-radius: 20px;
+
+    min-height: 360px;
+
+    overflow: hidden;
+
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+
+    display: flex;
+
+    flex-direction: column;
+}
+
+.satellite-card:hover,
+.mission-card:hover {
+
+    transform: translateY(-5px);
+
+    border-color: #4f8bb7;
+
+    box-shadow:
+        0 15px 35px rgba(0, 0, 0, 0.25);
+}
+
+
+/* =========================================================
+   CARD CONTENT
+========================================================= */
+
+.satellite-card-content,
+.mission-card-content {
+
+    padding: 25px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    flex: 1;
+}
+
+
+.satellite-card h3,
+.mission-card h3 {
+
+    font-size: 24px;
+
+    margin-bottom: 20px;
+
+    color: #ffffff;
+
+    min-height: 58px;
+}
+
+
+.satellite-card p,
+.mission-card p {
+
+    margin-bottom: 8px;
+
+    color: #c8d4df;
+
+    font-size: 15px;
+}
+
+.satellite-card p strong,
+.mission-card p strong {
+
+    color: white;
+}
+
+
+/* =========================================================
+   VIEW DETAILS BUTTON
+========================================================= */
+
+.view-details-btn {
+
+    width: 100%;
+
+    margin-top: auto;
+
+    padding: 14px 18px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: #239bd3;
+
+    color: white;
+
+    font-size: 17px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.view-details-btn:hover {
+
+    background: #35afe7;
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   PAGINATION
+========================================================= */
+
+#satellite-pagination,
+#mission-pagination {
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 7px;
+
+    margin-top: 35px;
+
+    min-height: 45px;
+}
+
+
+#satellite-pagination button,
+#mission-pagination button {
+
+    min-width: 38px;
+
+    height: 38px;
+
+    padding: 0 12px;
+
+    border: 1px solid #38566d;
+
+    border-radius: 7px;
+
+    background: #0c1d2c;
+
+    color: white;
+
+    cursor: pointer;
+
+    font-size: 14px;
+
+    transition: 0.2s;
+}
+
+
+#satellite-pagination button:hover,
+#mission-pagination button:hover {
+
+    background: #193b55;
+}
+
+
+#satellite-pagination button.active,
+#mission-pagination button.active {
+
+    background: #239bd3;
+
+    border-color: #239bd3;
+
+    color: white;
+}
+
+
+#satellite-pagination button:disabled,
+#mission-pagination button:disabled {
+
+    opacity: 0.4;
+
+    cursor: not-allowed;
+}
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+#satellite-search {
+
+    width: 100%;
+
+    max-width: 550px;
+
+    padding: 14px 18px;
+
+    border-radius: 10px;
+
+    border: 1px solid #29465e;
+
+    background: #0b1927;
+
+    color: white;
+
+    font-size: 16px;
+
+    margin-bottom: 25px;
+
+    outline: none;
+}
+
+#satellite-search:focus {
+
+    border-color: #239bd3;
+
+    box-shadow:
+        0 0 0 3px rgba(
+            35,
+            155,
+            211,
+            0.12
+        );
+}
+
+
+/* =========================================================
+   FILTER BUTTONS
+========================================================= */
+
+.filter-buttons {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 10px;
+
+    margin-bottom: 30px;
+}
+
+.filter-buttons button {
+
+    padding: 9px 17px;
+
+    border-radius: 20px;
+
+    border: 1px solid #29465e;
+
+    background: #0c1d2c;
+
+    color: #d9e3eb;
+
+    cursor: pointer;
+}
+
+.filter-buttons button:hover {
+
+    background: #193b55;
+}
+
+
+/* =========================================================
+   ADMIN LOGIN MODAL
+========================================================= */
+
+#admin-login-modal {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 5000;
+
+    display: none;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background:
+        rgba(
+            0,
+            0,
+            0,
+            0.75
+        );
+
+    backdrop-filter: blur(6px);
+}
+
+
+.admin-login-box {
+
+    width: 90%;
+
+    max-width: 430px;
+
+    background: #0b1927;
+
+    border: 1px solid #38566d;
+
+    border-radius: 18px;
+
+    padding: 35px;
+
+    box-shadow:
+        0 25px 70px rgba(
+            0,
+            0,
+            0,
+            0.5
+        );
+}
+
+
+.admin-login-box h2 {
+
+    color: #a85cff;
+
+    margin-bottom: 25px;
+
+    font-size: 28px;
+}
+
+
+.admin-login-box input {
+
+    width: 100%;
+
+    padding: 13px;
+
+    margin-bottom: 15px;
+
+    background: #071522;
+
+    border: 1px solid #29465e;
+
+    border-radius: 8px;
+
+    color: white;
+
+    outline: none;
+}
+
+
+.admin-login-box button {
+
+    width: 100%;
+
+    padding: 13px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #7928d8;
+
+    color: white;
+
+    cursor: pointer;
+
+    font-size: 16px;
+
+    margin-top: 8px;
+}
+
+
+.admin-login-box .close-admin {
+
+    background: #273849;
+
+    margin-top: 10px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1000px) {
+
+    nav ul {
+
+        gap: 20px;
+    }
+
+    nav ul li a {
+
+        font-size: 18px;
+    }
+
+    .hero {
+
+        padding: 50px 6%;
+    }
+
+    .hero-image {
+
+        width: 320px;
+
+        height: 500px;
+    }
+
+    #satellite-container,
+    #mission-container {
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+}
+
+
+@media (max-width: 700px) {
+
+    nav {
+
+        height: auto;
+
+        padding: 18px 5%;
+
+        flex-wrap: wrap;
+
+        gap: 15px;
+    }
+
+    .logo {
+
+        font-size: 24px;
+    }
+
+    nav ul {
+
+        width: 100%;
+
+        justify-content: center;
+
+        gap: 15px;
+
+        flex-wrap: wrap;
+
+        margin-left: 0;
+    }
+
+    nav ul li a {
+
+        font-size: 15px;
+    }
+
+    .hero {
+
+        flex-direction: column;
+
+        padding: 50px 7%;
+    }
+
+    .hero-content h1 {
+
+        font-size: 55px;
+    }
+
+    .hero-image {
+
+        position: relative;
+
+        top: 0;
+
+        width: 100%;
+
+        max-width: 390px;
+
+        height: 500px;
+    }
+
+    #satellite-container,
+    #mission-container {
+
+        grid-template-columns: 1fr;
+    }
+
+    section {
+
+        padding: 60px 7%;
+    }
+
+}

@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Satellite Details</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #07111f;
+            color: white;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: #0d1b2a;
+            padding: 20px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #243447;
+        }
+
+        .navbar h2 {
+            color: #f5a623;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: white;
+            background: #1d3557;
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .back-btn:hover {
+            background: #284b73;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 40px auto;
+        }
+
+        .title-section {
+            margin-bottom: 30px;
+        }
+
+        .title-section h1 {
+            font-size: 38px;
+            margin-bottom: 10px;
+            color: #f5a623;
+        }
+
+        .title-section p {
+            color: #aeb9c6;
+            font-size: 16px;
+        }
+
+        .details-card {
+            background: #0d1b2a;
+            border: 1px solid #243447;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 25px;
+        }
+
+        .details-card h2 {
+            color: #f5a623;
+            margin-bottom: 20px;
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .detail-item {
+            background: #111f30;
+            padding: 18px;
+            border-radius: 10px;
+        }
+
+        .detail-item strong {
+            display: block;
+            color: #8fa3b8;
+            font-size: 14px;
+            margin-bottom: 7px;
+        }
+
+        .detail-item span {
+            color: white;
+            font-size: 16px;
+        }
+
+        .description {
+            line-height: 1.8;
+            color: #d5dce4;
+            font-size: 16px;
+        }
+
+        .loading {
+            text-align: center;
+            font-size: 20px;
+            color: #aeb9c6;
+            padding: 50px;
+        }
+
+        .error {
+            background: #351717;
+            border: 1px solid #7a3030;
+            padding: 20px;
+            border-radius: 10px;
+            color: #ffaaaa;
+        }
+
+        @media (max-width: 700px) {
+
+            .navbar {
+                padding: 15px 20px;
+            }
+
+            .container {
+                width: 92%;
+                margin: 25px auto;
+            }
+
+            .title-section h1 {
+                font-size: 28px;
+            }
+
+            .details-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .details-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <h2>Satellite Management System</h2>
+
+        <a href="index.html" class="back-btn">
+            ← Back
+        </a>
+    </nav>
+
+
+    <main class="container">
+
+        <div id="loading" class="loading">
+            Loading satellite details...
+        </div>
+
+
+        <div id="satellite-content" style="display: none;">
+
+            <div class="title-section">
+
+                <h1 id="satellite-name">
+                    Satellite Name
+                </h1>
+
+                <p id="satellite-id">
+                    Satellite ID
+                </p>
+
+            </div>
+
+
+            <div class="details-card">
+
+                <h2>Basic Information</h2>
+
+                <div class="details-grid">
+
+                    <div class="detail-item">
+                        <strong>Satellite ID</strong>
+                        <span id="detail-id">-</span>
+                    </div>
+
+                    <div class="detail-item">
+                        <strong>Type</strong>
+                        <span id="detail-type">-</span>
+                    </div>
+
+                    <div class="detail-item">
+                        <strong>Battery</strong>
+                        <span id="detail-battery">-</span>
+                    </div>
+
+                    <div class="detail-item">
+                        <strong>Orbit</strong>
+                        <span id="detail-orbit">-</span>
+                    </div>
+
+                    <div class="detail-item">
+                        <strong>Launch Date</strong>
+                        <span id="detail-launch">-</span>
+                    </div>
+
+                    <div class="detail-item">
+                        <strong>Operator</strong>
+                        <span id="detail-operator">-</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="details-card">
+
+                <h2>Mission Information</h2>
+
+                <p
+                    id="detail-purpose"
+                    class="description">
+                    -
+                </p>
+
+            </div>
+
+
+            <div class="details-card">
+
+                <h2>Description</h2>
+
+                <p
+                    id="detail-description"
+                    class="description">
+                    -
+                </p>
+
+            </div>
+
+
+            <div
+                id="technical-card"
+                class="details-card">
+
+                <h2>Technical Specifications</h2>
+
+                <div
+                    id="technical-details"
+                    class="details-grid">
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div
+            id="error"
+            class="error"
+            style="display: none;">
+        </div>
+
+    </main>
+
+
+    <script>
+
+        const API_URL =
+            "http://127.0.0.1:5000/api/satellites";
+
+
+        async function loadSatelliteDetails() {
+
+            try {
+
+                /*
+                 * Get satellite ID from URL.
+                 *
+                 * Example:
+                 * satellite-details.html?id=SAT001
+                 */
+                const params =
+                    new URLSearchParams(window.location.search);
+
+                const satelliteId =
+                    params.get("id");
+
+
+                if (!satelliteId) {
+
+                    showError(
+                        "No satellite ID was provided."
+                    );
+
+                    return;
+                }
+
+
+                const response =
+                    await fetch(API_URL);
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Could not connect to Flask server."
+                    );
+                }
+
+
+                const satellites =
+                    await response.json();
+
+
+                const satellite =
+                    satellites.find(
+                        s => s.id === satelliteId
+                    );
+
+
+                if (!satellite) {
+
+                    showError(
+                        "Satellite " +
+                        satelliteId +
+                        " was not found."
+                    );
+
+                    return;
+                }
+
+
+                displaySatellite(satellite);
+
+            }
+
+            catch (error) {
+
+                console.error(error);
+
+                showError(
+                    "Unable to load satellite details. " +
+                    "Make sure Flask is running."
+                );
+            }
+        }
+
+
+
+        function displaySatellite(satellite) {
+
+            document.getElementById(
+                "loading"
+            ).style.display = "none";
+
+
+            document.getElementById(
+                "satellite-content"
+            ).style.display = "block";
+
+
+            document.getElementById(
+                "satellite-name"
+            ).textContent =
+                satellite.name || "Unknown Satellite";
+
+
+            document.getElementById(
+                "satellite-id"
+            ).textContent =
+                satellite.id || "-";
+
+
+            document.getElementById(
+                "detail-id"
+            ).textContent =
+                satellite.id || "-";
+
+
+            document.getElementById(
+                "detail-type"
+            ).textContent =
+                satellite.type || "-";
+
+
+            document.getElementById(
+                "detail-battery"
+            ).textContent =
+                satellite.battery !== undefined
+                    ? satellite.battery + "%"
+                    : "-";
+
+
+            document.getElementById(
+                "detail-orbit"
+            ).textContent =
+                satellite.orbit || "-";
+
+
+            document.getElementById(
+                "detail-launch"
+            ).textContent =
+                satellite.launchDate || "-";
+
+
+            document.getElementById(
+                "detail-operator"
+            ).textContent =
+                satellite.operator || "-";
+
+
+            document.getElementById(
+                "detail-purpose"
+            ).textContent =
+                satellite.missionPurpose ||
+                "No mission purpose available.";
+
+
+            document.getElementById(
+                "detail-description"
+            ).textContent =
+                satellite.description ||
+                "No description available.";
+
+
+            displayTechnicalDetails(
+                satellite
+            );
+        }
+
+
+
+        function displayTechnicalDetails(satellite) {
+
+            const container =
+                document.getElementById(
+                    "technical-details"
+                );
+
+
+            let html = "";
+
+
+            if (satellite.sensor) {
+
+                html += `
+                    <div class="detail-item">
+                        <strong>Sensor</strong>
+                        <span>
+                            ${satellite.sensor}
+                        </span>
+                    </div>
+                `;
+            }
+
+
+            if (
+                satellite.resolution !== undefined
+            ) {
+
+                html += `
+                    <div class="detail-item">
+                        <strong>Resolution</strong>
+                        <span>
+                            ${satellite.resolution} m
+                        </span>
+                    </div>
+                `;
+            }
+
+
+            if (
+                satellite.temperature !== undefined
+            ) {
+
+                html += `
+                    <div class="detail-item">
+                        <strong>Temperature</strong>
+                        <span>
+                            ${satellite.temperature} °C
+                        </span>
+                    </div>
+                `;
+            }
+
+
+            if (
+                satellite.humidity !== undefined
+            ) {
+
+                html += `
+                    <div class="detail-item">
+                        <strong>Humidity</strong>
+                        <span>
+                            ${satellite.humidity}%
+                        </span>
+                    </div>
+                `;
+            }
+
+
+            if (
+                satellite.bandwidth !== undefined
+            ) {
+
+                html += `
+                    <div class="detail-item">
+                        <strong>Bandwidth</strong>
+                        <span>
+                            ${satellite.bandwidth} Mbps
+                        </span>
+                    </div>
+                `;
+            }
+
+
+            if (satellite.aiModel) {
+
+                html += `
+                    <div class="detail-item">
+                        <strong>AI Model</strong>
+                        <span>
+                            ${satellite.aiModel}
+                        </span>
+                    </div>
+                `;
+            }
+
+
+            if (html === "") {
+
+                html = `
+                    <div class="detail-item">
+                        <strong>Information</strong>
+                        <span>
+                            No additional technical
+                            information available.
+                        </span>
+                    </div>
+                `;
+            }
+
+
+            container.innerHTML = html;
+        }
+
+
+
+        function showError(message) {
+
+            document.getElementById(
+                "loading"
+            ).style.display = "none";
+
+
+            const errorBox =
+                document.getElementById(
+                    "error"
+                );
+
+
+            errorBox.textContent =
+                message;
+
+
+            errorBox.style.display =
+                "block";
+        }
+
+
+        /*
+         * Start loading the satellite.
+         */
+        loadSatelliteDetails();
+
+    </script>
+
+</body>
+</html>

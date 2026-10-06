@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Mission Details | Satellite System</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #050b18;
+            color: white;
+            min-height: 100vh;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        .navbar {
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6%;
+            background: rgba(5, 11, 24, 0.96);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            background: white;
+            color: #050b18;
+        }
+
+        /* ================= HERO ================= */
+
+        .page-header {
+            text-align: center;
+            padding: 60px 20px 35px;
+        }
+
+        .page-header h1 {
+            font-size: 42px;
+            margin-bottom: 10px;
+        }
+
+        .page-header p {
+            color: #aebbd0;
+            font-size: 16px;
+        }
+
+        /* ================= DETAILS ================= */
+
+        .details-container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 20px auto 80px;
+        }
+
+        .mission-card {
+            background: linear-gradient(
+                145deg,
+                rgba(25, 40, 65, 0.95),
+                rgba(8, 17, 32, 0.95)
+            );
+
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+        }
+
+        .mission-title {
+            margin-bottom: 30px;
+        }
+
+        .mission-title h2 {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .mission-title span {
+            color: #8fa4c2;
+        }
+
+        /* ================= GRID ================= */
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .detail-box {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .detail-box.full {
+            grid-column: 1 / -1;
+        }
+
+        .label {
+            color: #8da2bd;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .value {
+            font-size: 17px;
+            line-height: 1.5;
+        }
+
+        /* ================= STATUS ================= */
+
+        .status {
+            display: inline-block;
+            padding: 7px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .status-planned {
+            background: rgba(255, 193, 7, 0.15);
+            color: #ffc107;
+        }
+
+        .status-upcoming {
+            background: rgba(0, 174, 255, 0.15);
+            color: #00aeff;
+        }
+
+        .status-active {
+            background: rgba(0, 220, 130, 0.15);
+            color: #00dc82;
+        }
+
+        .status-completed {
+            background: rgba(160, 120, 255, 0.15);
+            color: #a078ff;
+        }
+
+        /* ================= LOADING ================= */
+
+        #loading {
+            text-align: center;
+            padding: 80px;
+            color: #9aa9bd;
+        }
+
+        #error {
+            display: none;
+            text-align: center;
+            padding: 60px;
+            color: #ff6b6b;
+        }
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 700px) {
+
+            .page-header h1 {
+                font-size: 32px;
+            }
+
+            .details-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .detail-box.full {
+                grid-column: auto;
+            }
+
+            .mission-card {
+                padding: 22px;
+            }
+
+            .mission-title h2 {
+                font-size: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            SATELLITE SYSTEM
+        </div>
+
+        <a href="index.html#missions" class="back-btn">
+            ← Back to Missions
+        </a>
+
+    </nav>
+
+
+    <!-- HEADER -->
+
+    <section class="page-header">
+
+        <h1>Mission Details</h1>
+
+        <p>
+            Detailed information about the selected satellite mission
+        </p>
+
+    </section>
+
+
+    <!-- LOADING -->
+
+    <div id="loading">
+        Loading mission information...
+    </div>
+
+
+    <!-- ERROR -->
+
+    <div id="error">
+        Mission information could not be found.
+    </div>
+
+
+    <!-- DETAILS -->
+
+    <div class="details-container">
+
+        <div id="mission-details" class="mission-card" style="display:none;">
+
+            <div class="mission-title">
+
+                <h2 id="mission-name">
+                    Mission
+                </h2>
+
+                <span id="mission-id">
+                    Mission ID
+                </span>
+
+            </div>
+
+
+            <div class="details-grid">
+
+                <!-- TARGET -->
+
+                <div class="detail-box">
+
+                    <div class="label">
+                        Target Location
+                    </div>
+
+                    <div class="value" id="target">
+                        —
+                    </div>
+
+                </div>
+
+
+                <!-- STATUS -->
+
+                <div class="detail-box">
+
+                    <div class="label">
+                        Mission Status
+                    </div>
+
+                    <div class="value" id="status">
+                        —
+                    </div>
+
+                </div>
+
+
+                <!-- LAUNCH DATE -->
+
+                <div class="detail-box">
+
+                    <div class="label">
+                        Launch Date
+                    </div>
+
+                    <div class="value" id="launch-date">
+                        —
+                    </div>
+
+                </div>
+
+
+                <!-- DURATION -->
+
+                <div class="detail-box">
+
+                    <div class="label">
+                        Estimated Duration
+                    </div>
+
+                    <div class="value" id="duration">
+                        —
+                    </div>
+
+                </div>
+
+
+                <!-- SENSOR -->
+
+                <div class="detail-box">
+
+                    <div class="label">
+                        Sensor Type
+                    </div>
+
+                    <div class="value" id="sensor">
+                        —
+                    </div>
+
+                </div>
+
+
+                <!-- OBJECTIVE -->
+
+                <div class="detail-box full">
+
+                    <div class="label">
+                        Mission Objective
+                    </div>
+
+                    <div class="value" id="objective">
+                        —
+                    </div>
+
+                </div>
+
+
+                <!-- DESCRIPTION -->
+
+                <div class="detail-box full">
+
+                    <div class="label">
+                        Mission Description
+                    </div>
+
+                    <div class="value" id="description">
+                        —
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        const MISSION_API =
+            "http://127.0.0.1:5000/api/missions";
+
+
+        async function loadMissionDetails() {
+
+            const loading =
+                document.getElementById("loading");
+
+            const error =
+                document.getElementById("error");
+
+            const details =
+                document.getElementById("mission-details");
+
+
+            try {
+
+                /* Get ID from URL */
+
+                const params =
+                    new URLSearchParams(window.location.search);
+
+                const missionId =
+                    params.get("id");
+
+
+                console.log("Mission ID:", missionId);
+
+
+                if (!missionId) {
+
+                    throw new Error(
+                        "No mission ID found in URL."
+                    );
+
+                }
+
+
+                /* Get missions from Flask */
+
+                const response =
+                    await fetch(MISSION_API);
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Could not connect to mission API."
+                    );
+
+                }
+
+
+                const missions =
+                    await response.json();
+
+
+                console.log("Missions received:", missions);
+
+
+                /* Find selected mission */
+
+                const mission =
+                    missions.find(
+                        m => String(m.id).trim() ===
+                             String(missionId).trim()
+                    );
+
+
+                if (!mission) {
+
+                    throw new Error(
+                        "Mission not found."
+                    );
+
+                }
+
+
+                /* Fill information */
+
+                document.getElementById("mission-name")
+                    .textContent =
+                    mission.name || "Unknown Mission";
+
+
+                document.getElementById("mission-id")
+                    .textContent =
+                    "Mission ID: " +
+                    (mission.id || "—");
+
+
+                document.getElementById("target")
+                    .textContent =
+                    mission.target || "—";
+
+
+                /* STATUS */
+
+                const statusElement =
+                    document.getElementById("status");
+
+                const status =
+                    (mission.status || "UNKNOWN")
+                    .toUpperCase();
+
+                statusElement.textContent =
+                    status;
+
+                statusElement.className =
+                    "status status-" +
+                    status.toLowerCase();
+
+
+                /* Other information */
+
+                document.getElementById("launch-date")
+                    .textContent =
+                    mission.launchDate || "—";
+
+
+                document.getElementById("duration")
+                    .textContent =
+                    mission.estimatedDuration || "—";
+
+
+                document.getElementById("sensor")
+                    .textContent =
+                    mission.sensor || "—";
+
+
+                document.getElementById("objective")
+                    .textContent =
+                    mission.objective || "—";
+
+
+                document.getElementById("description")
+                    .textContent =
+                    mission.description || "—";
+
+
+                /* Show page */
+
+                loading.style.display = "none";
+
+                details.style.display = "block";
+
+
+            } catch (err) {
+
+                console.error(
+                    "Mission details error:",
+                    err
+                );
+
+                loading.style.display = "none";
+
+                error.style.display = "block";
+
+                error.textContent =
+                    "Unable to load mission details.";
+            }
+
+        }
+
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            loadMissionDetails
+        );
+
+    </script>
+
+</body>
+
+</html>

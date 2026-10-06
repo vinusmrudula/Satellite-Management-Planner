@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Admin Control</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+
+            margin: 0;
+
+            background: #020810;
+
+            color: white;
+
+            font-family: Arial, sans-serif;
+
+        }
+
+
+        .navbar {
+
+            height: 80px;
+
+            padding: 0 7%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            background: #030b14;
+
+            border-bottom:
+                1px solid #1a3042;
+
+        }
+
+
+        .back {
+
+            color: #62c4ef;
+
+            text-decoration: none;
+
+        }
+
+
+        .page {
+
+            max-width: 1100px;
+
+            margin: auto;
+
+            padding: 70px 30px;
+
+        }
+
+
+        .warning {
+
+            background: #251518;
+
+            border: 1px solid #6b3030;
+
+            color: #ffb3b3;
+
+            padding: 20px;
+
+            border-radius: 12px;
+
+            margin-bottom: 30px;
+
+        }
+
+
+        .admin-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 20px;
+
+        }
+
+
+        .admin-card {
+
+            background: #0b1a28;
+
+            border: 1px solid #203b50;
+
+            border-radius: 18px;
+
+            padding: 30px;
+
+        }
+
+
+        .admin-card h3 {
+
+            margin-bottom: 15px;
+
+        }
+
+
+        .admin-card p {
+
+            color: #9db5c8;
+
+            line-height: 1.6;
+
+        }
+
+
+        button {
+
+            margin-top: 25px;
+
+            padding: 12px 20px;
+
+            border: none;
+
+            border-radius: 7px;
+
+            background: #2196d2;
+
+            color: white;
+
+            cursor: pointer;
+
+        }
+
+
+        button:hover {
+
+            background: #176fa0;
+
+        }
+
+
+        /* MISSION RESULTS */
+
+        #mission-results {
+
+            margin-top: 35px;
+
+        }
+
+
+        .results-title {
+
+            margin-bottom: 20px;
+
+            font-size: 26px;
+
+        }
+
+
+        .mission-card {
+
+            background: #0b1a28;
+
+            border: 1px solid #203b50;
+
+            border-radius: 15px;
+
+            padding: 25px;
+
+            margin-bottom: 15px;
+
+        }
+
+
+        .mission-card h3 {
+
+            margin-top: 0;
+
+            margin-bottom: 12px;
+
+        }
+
+
+        .mission-card p {
+
+            color: #aebed0;
+
+            line-height: 1.6;
+
+            margin: 6px 0;
+
+        }
+
+
+        .status {
+
+            display: inline-block;
+
+            margin-top: 10px;
+
+            padding: 6px 12px;
+
+            border-radius: 20px;
+
+            background: #163b50;
+
+            color: #7fd4ff;
+
+            font-size: 13px;
+
+        }
+
+
+        .loading {
+
+            color: #9db5c8;
+
+            padding: 20px 0;
+
+        }
+
+
+        .error {
+
+            color: #ff8d8d;
+
+            padding: 20px 0;
+
+        }
+
+
+        @media (max-width: 800px) {
+
+            .admin-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<nav class="navbar">
+
+    <strong>
+        🔐 ADMIN MISSION CONTROL
+    </strong>
+
+
+    <a
+        href="index.html"
+        class="back"
+    >
+        ← Main System
+    </a>
+
+</nav>
+
+
+<main class="page">
+
+
+    <h1>
+        Admin Control Panel
+    </h1>
+
+
+    <p
+        style="
+        color:#9db5c8;
+        margin-bottom:30px;
+        "
+    >
+
+        Authorized access only.
+
+    </p>
+
+
+    <div class="warning">
+
+        ⚠ Classified mission information is
+        restricted to authorized administrators.
+
+    </div>
+
+
+    <div class="admin-grid">
+
+
+        <!-- PLANNED -->
+
+        <div class="admin-card">
+
+            <h3>
+                Planned Missions
+            </h3>
+
+            <p>
+                View missions currently in the
+                planned state.
+            </p>
+
+            <button
+                type="button"
+                onclick="showMissions('PLANNED')"
+            >
+                View Planned
+            </button>
+
+        </div>
+
+
+        <!-- ACTIVE -->
+
+        <div class="admin-card">
+
+            <h3>
+                Active Missions
+            </h3>
+
+            <p>
+                Monitor currently active missions.
+            </p>
+
+            <button
+                type="button"
+                onclick="showMissions('ACTIVE')"
+            >
+                View Active
+            </button>
+
+        </div>
+
+
+        <!-- CLASSIFIED -->
+
+        <div class="admin-card">
+
+            <h3>
+                Classified Information
+            </h3>
+
+            <p>
+                Protected mission information is
+                available only to authorized users.
+            </p>
+
+            <button
+                type="button"
+                onclick="showClassified()"
+            >
+                Access Classified Data
+            </button>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- MISSION RESULTS -->
+
+    <div id="mission-results">
+
+    </div>
+
+
+    <!-- CLASSIFIED -->
+
+    <div
+        id="classified"
+        style="
+            display:none;
+            margin-top:30px;
+            padding:30px;
+            background:#160b0b;
+            border:1px solid #713030;
+            border-radius:18px;
+        "
+    >
+
+        <h2>
+            🔒 Classified Information
+        </h2>
+
+        <p>
+            Administrative authentication successful.
+        </p>
+
+        <p>
+            Classified mission information will be
+            loaded from the backend.
+        </p>
+
+    </div>
+
+
+</main>
+
+
+<script>
+
+
+const MISSION_API =
+    "http://127.0.0.1:5000/api/missions";
+
+
+let missions = [];
+
+
+/* ==========================================
+   LOAD MISSIONS
+========================================== */
+
+async function loadMissions() {
+
+    try {
+
+        const response =
+            await fetch(MISSION_API);
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Failed to load missions"
+            );
+
+        }
+
+
+        missions =
+            await response.json();
+
+
+        console.log(
+            "Admin missions loaded:",
+            missions.length
+        );
+
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        document.getElementById(
+            "mission-results"
+        ).innerHTML = `
+
+            <div class="error">
+
+                ❌ Could not connect to
+                the Flask backend.
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* ==========================================
+   SHOW MISSIONS BY STATUS
+========================================== */
+
+function showMissions(status) {
+
+    const results =
+        document.getElementById(
+            "mission-results"
+        );
+
+
+    const classified =
+        document.getElementById(
+            "classified"
+        );
+
+
+    /* Hide classified section */
+
+    classified.style.display =
+        "none";
+
+
+    /* Show loading */
+
+    results.innerHTML = `
+
+        <div class="loading">
+
+            Loading ${status.toLowerCase()}
+            missions...
+
+        </div>
+
+    `;
+
+
+    /* Filter missions */
+
+    const filtered =
+        missions.filter(
+            mission =>
+                String(
+                    mission.status
+                ).toUpperCase() === status
+        );
+
+
+    console.log(
+        status,
+        "missions:",
+        filtered
+    );
+
+
+    if (filtered.length === 0) {
+
+        results.innerHTML = `
+
+            <h2 class="results-title">
+
+                ${status} MISSIONS
+
+            </h2>
+
+            <div class="mission-card">
+
+                <p>
+                    No ${status.toLowerCase()}
+                    missions found.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    /* Create heading */
+
+    results.innerHTML = `
+
+        <h2 class="results-title">
+
+            ${status} MISSIONS
+
+        </h2>
+
+    `;
+
+
+    /* Display missions */
+
+    filtered.forEach(
+        mission => {
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+
+            card.className =
+                "mission-card";
+
+
+            card.innerHTML = `
+
+                <h3>
+                    ${escapeHTML(
+                        mission.name ||
+                        "Unnamed Mission"
+                    )}
+                </h3>
+
+
+                <p>
+
+                    <strong>
+                        Mission ID:
+                    </strong>
+
+                    ${escapeHTML(
+                        mission.id ||
+                        "N/A"
+                    )}
+
+                </p>
+
+
+                <p>
+
+                    <strong>
+                        Target:
+                    </strong>
+
+                    ${escapeHTML(
+                        mission.target ||
+                        "N/A"
+                    )}
+
+                </p>
+
+
+                <p>
+
+                    <strong>
+                        Objective:
+                    </strong>
+
+                    ${escapeHTML(
+                        mission.objective ||
+                        "N/A"
+                    )}
+
+                </p>
+
+
+                <p>
+
+                    <strong>
+                        Launch Date:
+                    </strong>
+
+                    ${escapeHTML(
+                        mission.launchDate ||
+                        "N/A"
+                    )}
+
+                </p>
+
+
+                <p>
+
+                    <strong>
+                        Duration:
+                    </strong>
+
+                    ${escapeHTML(
+                        mission.estimatedDuration ||
+                        "N/A"
+                    )}
+
+                </p>
+
+
+                <span class="status">
+
+                    ${escapeHTML(
+                        mission.status ||
+                        status
+                    )}
+
+                </span>
+
+            `;
+
+
+            results.appendChild(
+                card
+            );
+
+        }
+    );
+
+}
+
+
+/* ==========================================
+   CLASSIFIED
+========================================== */
+
+function showClassified() {
+
+    const classified =
+        document.getElementById(
+            "classified"
+        );
+
+
+    const results =
+        document.getElementById(
+            "mission-results"
+        );
+
+
+    results.innerHTML = "";
+
+
+    classified.style.display =
+        "block";
+
+}
+
+
+/* ==========================================
+   SECURITY
+========================================== */
+
+function escapeHTML(value) {
+
+    return String(value)
+
+        .replace(/&/g, "&amp;")
+
+        .replace(/</g, "&lt;")
+
+        .replace(/>/g, "&gt;")
+
+        .replace(/"/g, "&quot;")
+
+        .replace(/'/g, "&#039;");
+
+}
+
+
+/* ==========================================
+   START
+========================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    loadMissions
+);
+
+
+</script>
+
+
+</body>
+
+</html>

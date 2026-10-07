@@ -7,11 +7,9 @@
 // API URLS
 // ============================================================
 
-const SATELLITE_API =
-    "http://127.0.0.1:5000/api/satellites";
+const SATELLITE_API = "/api/satellites";
 
-const MISSION_API =
-    "http://127.0.0.1:5000/api/missions";
+const MISSION_API = "/api/missions";
 
 
 // ============================================================

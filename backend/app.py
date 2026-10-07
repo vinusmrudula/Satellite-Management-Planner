@@ -369,7 +369,12 @@ if __name__ == "__main__":
         debug=True
     )
 
-
+@app.route("/<path:filename>")
+def frontend_files(filename):
+    return send_from_directory(
+        os.path.join(os.path.dirname(__file__), "..", "frontend"),
+        filename
+    )
 
 if __name__ == "__main__":
     app.run(debug=True)
